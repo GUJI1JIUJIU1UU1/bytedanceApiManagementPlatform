@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./login.css"
+import axios from "axios";
 
 export const Login = () => {
     const [isGx, setIsGx] = useState(false);
@@ -8,6 +9,10 @@ export const Login = () => {
     const [isHiddenC2, setIsHiddenC2] = useState(true);
     const [isTxl, setIsTxl] = useState(false);
     const [isZ, setIsZ] = useState(false);
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState("");
+    const [verificationcode, setVerificationcode] = useState("");
 
     const changeForm = () => {
         // 修改状态
@@ -23,6 +28,38 @@ export const Login = () => {
         setIsZ((prev) => !prev);
     };
 
+    const handleRegister = (e) => {
+        e.preventDefault();
+        axios.post("/api/users/register", { username, password, email, verificationcode })
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log("注册成功：", response.data.message);
+                    console.log("用户ID：", response.data.userId);
+                }
+            })
+            .catch((error) => {
+                if (error.response && error.response.status === 400) {
+                    console.error("注册失败：", error.response.data.error);
+                }
+            });
+    };
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+        axios.post("/api/users/login", { username, password, verificationcode })
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log("登录成功：", response.data.message);
+                    console.log("用户ID：", response.data.userId);
+                    console.log("令牌：", response.data.token);
+                }
+            })
+            .catch((error) => {
+                if (error.response && error.response.status === 400) {
+                    console.error("登录失败：", error.response.data.error);
+                }
+            })
+    }
 
     return (
         <section className="login">
@@ -43,18 +80,18 @@ export const Login = () => {
                     <form action="" method="" className="form" id="a-form">
                         <h2 className="form_title title">创建账号</h2>
                         <input type="text" className="form_input" placeholder="用户名"></input>
-                        <input type="text" className="form_input" placeholder="手机号/邮箱"></input>
+                        <input type="text" className="form_input" placeholder="邮箱"></input>
                         <input type="text" className="form_input" placeholder="密码"></input>
-                        <button className={`form_button button submit ${isGx ? "is-gx" : ""}`}>注册</button>
+                        <button className={`form_button button submit ${isGx ? "is-gx" : ""}`} onClick={handleRegister}>注册</button>
                     </form>
                 </div>
 
                 <div id="b-container" className={`container b-container ${isTxl ? "is-txl" : ""} ${isZ ? "is-z" : ""}`} >
                     <form action="" method="" className="form" id="b-form">
                         <h2 className="form_title title">登录账号</h2>
-                        <input type="text" className="form_input" placeholder="手机号/邮箱"></input>
+                        <input type="text" className="form_input" placeholder="邮箱"></input>
                         <input type="text" className="form_input" placeholder="密码"></input>
-                        <button className={`form_button button submit ${isGx ? "is-gx" : ""}`}>登录</button>
+                        <button className={`form_button button submit ${isGx ? "is-gx" : ""}`} onClick={handleLogin}>登录</button>
                     </form>
                 </div>
 
