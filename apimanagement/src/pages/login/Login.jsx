@@ -30,7 +30,12 @@ export const Login = () => {
 
     const handleRegister = (e) => {
         e.preventDefault();
-        axios.post("/api/users/register", { username, password, email, verificationcode })
+        axios.post("/api/users/register", {
+            username: username,
+            password: password,
+            email: email,
+            verificationcode: verificationcode
+        })
             .then((response) => {
                 if (response.status === 200) {
                     console.log("注册成功：", response.data.message);
@@ -46,7 +51,11 @@ export const Login = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        axios.post("/api/users/login", { username, password, verificationcode })
+        axios.post("/api/users/login", {
+            username: username,
+            password: password,
+            verificationcode: verificationcode
+        })
             .then((response) => {
                 if (response.status === 200) {
                     console.log("登录成功：", response.data.message);
@@ -79,9 +88,9 @@ export const Login = () => {
                 <div id="a-container" className={`container a-container ${isTxl ? "is-txl" : ""}`}>
                     <form action="" method="" className="form" id="a-form">
                         <h2 className="form_title title">创建账号</h2>
-                        <input type="text" className="form_input" placeholder="用户名"></input>
-                        <input type="text" className="form_input" placeholder="邮箱"></input>
-                        <input type="text" className="form_input" placeholder="密码"></input>
+                        <input type="text" className="form_input" placeholder="用户名" value={username} onChange={(e) => setUsername(e.target.value)} required></input>
+                        <input type="text" className="form_input" placeholder="邮箱" value={email} onChange={(e) => setEmail(e.target.value)} required></input>
+                        <input type="text" className="form_input" placeholder="密码" value={password} onChange={(e) => setPassword(e.target.value)} required></input>
                         <button className={`form_button button submit ${isGx ? "is-gx" : ""}`} onClick={handleRegister}>注册</button>
                     </form>
                 </div>
@@ -89,8 +98,8 @@ export const Login = () => {
                 <div id="b-container" className={`container b-container ${isTxl ? "is-txl" : ""} ${isZ ? "is-z" : ""}`} >
                     <form action="" method="" className="form" id="b-form">
                         <h2 className="form_title title">登录账号</h2>
-                        <input type="text" className="form_input" placeholder="邮箱"></input>
-                        <input type="text" className="form_input" placeholder="密码"></input>
+                        <input type="text" className="form_input" placeholder="邮箱" value={email} onChange={(e) => setEmail(e.target.value)} required></input>
+                        <input type="text" className="form_input" placeholder="密码" value={password} onChange={(e) => setPassword(e.target.value)} required></input>
                         <button className={`form_button button submit ${isGx ? "is-gx" : ""}`} onClick={handleLogin}>登录</button>
                     </form>
                 </div>
