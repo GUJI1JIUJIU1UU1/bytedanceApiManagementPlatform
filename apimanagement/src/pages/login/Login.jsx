@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "./login.css"
 import axios from "axios";
+import "./login.css"
 
 export const Login = () => {
     const [isGx, setIsGx] = useState(false);
@@ -27,6 +27,9 @@ export const Login = () => {
         setIsTxl((prev) => !prev);
         setIsZ((prev) => !prev);
     };
+
+    axios.defaults.baseURL = 'http://localhost:3001';
+
 
     const handleRegister = (e) => {
         e.preventDefault();
@@ -91,16 +94,17 @@ export const Login = () => {
                         <input type="text" className="form_input" placeholder="用户名" value={username} onChange={(e) => setUsername(e.target.value)} required></input>
                         <input type="text" className="form_input" placeholder="邮箱" value={email} onChange={(e) => setEmail(e.target.value)} required></input>
                         <input type="text" className="form_input" placeholder="密码" value={password} onChange={(e) => setPassword(e.target.value)} required></input>
-                        <button className={`form_button button submit ${isGx ? "is-gx" : ""}`} onClick={handleRegister}>注册</button>
+                        <button type="submit" className={`form_button button submit ${isGx ? "is-gx" : ""}`} onClick={handleRegister}>注册</button>
                     </form>
                 </div>
 
                 <div id="b-container" className={`container b-container ${isTxl ? "is-txl" : ""} ${isZ ? "is-z" : ""}`} >
                     <form action="" method="" className="form" id="b-form">
                         <h2 className="form_title title">登录账号</h2>
-                        <input type="text" className="form_input" placeholder="邮箱" value={email} onChange={(e) => setEmail(e.target.value)} required></input>
+                        <input type="text" className="form_input" placeholder="用户名" value={username} onChange={(e) => setUsername(e.target.value)} required></input>
                         <input type="text" className="form_input" placeholder="密码" value={password} onChange={(e) => setPassword(e.target.value)} required></input>
-                        <button className={`form_button button submit ${isGx ? "is-gx" : ""}`} onClick={handleLogin}>登录</button>
+                        <input type="text" className="form_input" placeholder="验证码" value={verificationcode} onChange={(e) => setVerificationcode(e.target.value)} required></input>
+                        <button type="submit" className={`form_button button submit ${isGx ? "is-gx" : ""}`} onClick={handleLogin}>登录</button>
                     </form>
                 </div>
 
